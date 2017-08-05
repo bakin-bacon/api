@@ -1,0 +1,22 @@
+{
+  "name": "🥓Bakin' Bacon API🥓",
+  "version": "1.0.0",
+  "description": "Serverless API for Bakin' Bacon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakin-bacon/api.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bakin-bacon/api/issues"
+  },
+  "homepage": "https://github.com/bakin-bacon/api#readme",
+  "dependencies": {
+    "dynamodb-doc": "^1.0.0"
+  }
+}
