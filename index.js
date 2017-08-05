@@ -1,12 +1,12 @@
 'use strict';
 
-console.log('Loading function');
+console.log(`Loading function ${process.env.AWS_FUNCTION_NAME}`);
 
 const doc = require('dynamodb-doc');
 const dynamo = new doc.DynamoDB();
 
-exports.handler = (event, context, callback) => {
-    console.log('Received event:', JSON.stringify(event, null, 2));
+exports.handler = (baconBit, context, callback) => {
+    console.log('Received 🥓:', JSON.stringify(baconBit));
 
     const done = (err, res) => callback(null, {
         statusCode: err ? '400' : '200',
@@ -18,7 +18,7 @@ exports.handler = (event, context, callback) => {
 
     var payload = {
       "TableName": "bakin-bacon-bacon-bits",
-      "Item": JSON.parse(event.body)
+      "Item": baconBit
     };
     dynamo.putItem(payload, done);
 };
