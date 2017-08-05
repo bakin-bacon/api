@@ -38,7 +38,7 @@ exports.get = (event, context, callback) => {
         callback(data, null);
       }
       else {
-        callback(null, data);
+        callback(null, data.Items);
       }
     });
 };
