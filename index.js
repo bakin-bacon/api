@@ -24,7 +24,7 @@ exports.get = (event, context, callback) => {
     params.TableName = "bakin-bacon-bacon-bits";
     params.KeyConditionExpression = "#user_id = :name";
     params.ExpressionAttributeNames = { "#user_id": "user_id" };
-    params.ExpressionAttributeValues = { ":name": "definitelynotgrant" };
+    params.ExpressionAttributeValues = { ":name": event.user_id };
    
     dynamo.query(params, (err, data) => {
       if (data) {
