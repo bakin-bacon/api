@@ -1,6 +1,6 @@
 'use strict';
 
-console.log(`Loading function ${process.env.AWS_FUNCTION_NAME}`);
+console.log(`Loading function`);
 
 const doc = require('dynamodb-doc');
 const dynamo = new doc.DynamoDB();
@@ -25,6 +25,11 @@ exports.get = (event, context, callback) => {
     params.ExpressionAttributeValues = { ":name": "definitelynotgrant" };
    
     dynamo.query(params, (err, data) => {
-      callback(err, data.Items);
+      if (data) {
+        callback(null, data.Items);
+      }
+      else {
+        callback(err, null);
+      }
     });
 };
