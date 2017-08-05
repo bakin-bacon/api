@@ -17,7 +17,8 @@ exports.post = (baconBit, context, callback) => {
 
 exports.get = (event, context, callback) => {
     console.log('Asked to provide bacon bits...doing so...');
-    console.log(context);
+    console.log('Context: ', context);
+    console.log('event: ', event);
 
     var params = {};
     params.TableName = "bakin-bacon-bacon-bits";
