@@ -20,6 +20,10 @@ exports.get = (event, context, callback) => {
     console.log('Context: ', context);
     console.log('event: ', event);
 
+    if (!event.user_id) {
+      callback('No user_id given', null);
+    }
+
     var params = {};
     params.TableName = "bakin-bacon-bacon-bits";
     params.KeyConditionExpression = "#user_id = :name";
@@ -27,11 +31,14 @@ exports.get = (event, context, callback) => {
     params.ExpressionAttributeValues = { ":name": event.user_id };
    
     dynamo.query(params, (err, data) => {
-      if (data) {
-        callback(null, data.Items);
+      if (err) {
+        callback(err, null);
+      }
+      else if (data.errorMessage) {
+        callback(data, null);
       }
       else {
-        callback(err, null);
+        callback(null, data);
       }
     });
 };
