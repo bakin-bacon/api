@@ -7,3 +7,7 @@ phases:
   post_build:
     commands:
       - aws lambda update-function-code --function-name bakin-bacon-bacon-bit-post --zip-file fileb://lambda.zip
+artifacts:
+  files:
+    - lambda.zip
+  discard-paths: yes
