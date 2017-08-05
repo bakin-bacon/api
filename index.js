@@ -8,18 +8,10 @@ const dynamo = new doc.DynamoDB();
 exports.handler = (baconBit, context, callback) => {
     console.log('Received 🥓:', JSON.stringify(baconBit));
 
-    const done = (err, res) => callback(null, {
-        statusCode: err ? '400' : '200',
-        body: err ? err.message : "🥓",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-
     var payload = {
       "TableName": "bakin-bacon-bacon-bits",
       "Item": baconBit
     };
-    dynamo.putItem(payload, done);
+    dynamo.putItem(payload, (err, res) => callback(err, {"🥓": true}));
 };
 
