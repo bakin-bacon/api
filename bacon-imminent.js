@@ -28,12 +28,12 @@ exports.post = (message, context, callback) => {
   };
 
   const payload = {
-    MessageBody: message,
+    MessageBody: JSON.stringify(message),
     QueueUrl,
     MessageGroupId: 'bacon-bacon-bacon-bacon-bacon'
   };
 
-  console.log('Message Payload:', payload);
+  console.log('Message Payload:', JSON.stringify(payload));
 
   SQS.sendMessage(payload, done);
 };
