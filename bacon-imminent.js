@@ -18,7 +18,7 @@ exports.post = (message, context, callback) => {
     if (err) {
       callback({
         errorMessage: JSON.stringify(err.message)
-      });
+      }, null);
       return;
     }
 
@@ -32,6 +32,8 @@ exports.post = (message, context, callback) => {
     QueueUrl,
     MessageGroupId: 'bacon-bacon-bacon-bacon-bacon'
   };
+
+  console.log('Message Payload:', payload);
 
   SQS.sendMessage(payload, done);
 };
