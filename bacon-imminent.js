@@ -17,7 +17,7 @@ exports.post = (message, context, callback) => {
   const done = (err, res) => {
     if (err) {
       callback({
-        errorMessage: err.message
+        errorMessage: JSON.stringify(err.message)
       });
       return;
     }
