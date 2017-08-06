@@ -3,11 +3,12 @@ version: 0.2
 phases:
   build:
     commands:
-      - zip lambda.zip index.js
+      - zip lambda.zip index.js bacon-imminent.js
   post_build:
     commands:
       - aws lambda update-function-code --function-name bakin-bacon-bacon-bit-post --zip-file fileb://lambda.zip
       - aws lambda update-function-code --function-name bakin-bacon-bacon-bit-get --zip-file fileb://lambda.zip
+      - aws lambda update-function-code --function-name bakin-bacon-bacon-imminent-post --zip-file fileb://lambda.zip
 artifacts:
   files:
     - lambda.zip
