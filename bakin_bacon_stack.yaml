@@ -2,7 +2,11 @@ Resources:
   Queue:
     Type: AWS::SQS::Queue
     Properties:
-      VisibilityTimeout: 0
+      ContentBasedDeduplication: true
+      DelaySeconds: 0 #NOTE: 0s for demo purposes, in real-life this would be 15 * 60s
+      FifoQueue: true
+      VisibilityTimeout: 30
+      QueueName: BakinBaconQueue.fifo
   QueuePollerLambda:
     Type: AWS::Lambda::Function
     Properties:
