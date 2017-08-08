@@ -75,3 +75,20 @@ Resources:
                 - lambda:InvokeFunction
               Resource:
                 - arn:aws:lambda:us-east-2:423626787814:function:bakin-bacon-bacon-notifier
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "user_id"
+          AttributeType: "S"
+        - AttributeName: "timestamp"
+          AttributeType: "N"
+      KeySchema:
+        - AttributeName: "user_id"
+          KeyType: "HASH"
+        - AttributeName: "timestamp"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: BakinBaconBaconBits
