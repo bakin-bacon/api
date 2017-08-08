@@ -1,0 +1,73 @@
+Resources:
+  Queue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 0
+  QueuePollerLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: !Sub |
+          var response = require('cfn-response');
+          exports.handler = function(event, context) {
+             var responseData = {Value: event.ResourceProperties.List};
+             responseData.Value.push(event.ResourceProperties.AppendedItem);
+             response.send(event, context, response.SUCCESS, responseData);
+          };
+      Runtime: nodejs6.10
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: BakinBaconLambdaPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+              Resource:
+                - arn:aws:logs:us-east-2:423626787814:*
+            - Effect: Allow
+              Action:
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource:
+                - arn:aws:logs:us-east-2:423626787814:log-group:/aws/lambda/bakin-bacon-bacon-bit-get:*
+                - arn:aws:logs:us-east-2:423626787814:log-group:/aws/lambda/bakin-bacon-bacon-bit-post:*
+                - arn:aws:logs:us-east-2:423626787814:log-group:/aws/lambda/bakin-bacon-bacon-imminent-post:*
+                - arn:aws:logs:us-east-2:423626787814:log-group:/aws/lambda/bakin-bacon-bacon-notifier:*
+            - Effect: Allow
+              Action:
+                - dynamodb:DeleteItem
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+                - dynamodb:Scan
+                - dynamodb:UpdateItem
+                - dynamodb:Query
+              Resource:
+                - arn:aws:dynamodb:us-east-2:423626787814:table/*
+            - Effect: Allow
+              Action:
+                - sqs:SendMessage
+                - sqs:DeleteMessage
+                - sqs:ReceiveMessage
+              Resource:
+                - arn:aws:sqs:us-east-2:423626787814:bakedBaconQueue.fifo
+            - Effect: Allow
+              Action:
+                - lambda:InvokeFunction
+              Resource:
+                - arn:aws:lambda:us-east-2:423626787814:function:bakin-bacon-bacon-notifier
