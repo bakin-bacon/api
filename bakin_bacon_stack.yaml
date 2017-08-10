@@ -1,3 +1,10 @@
+Parameters:
+  StackName:
+    Description: The name of the stack to create
+    Type: String
+    MinLength: 8
+    MaxLength: 40
+    AllowedPattern: ^[a-zA-Z0-9]*$
 Resources:
   Queue:
     Type: AWS::SQS::Queue
@@ -6,7 +13,7 @@ Resources:
       DelaySeconds: 0 #NOTE: 0s for demo purposes, in real-life this would be 15 * 60s
       FifoQueue: true
       VisibilityTimeout: 30
-      QueueName: BakinBaconQueue.fifo
+      QueueName: !Sub ${StackName}Queue.fifo
   QueuePollerLambda:
     Type: AWS::Lambda::Function
     Properties:
@@ -35,7 +42,7 @@ Resources:
               - sts:AssumeRole
       Path: "/"
       Policies:
-      - PolicyName: BakinBaconLambdaPolicy
+      - PolicyName: !Sub ${StackName}LambdaPolicy
         PolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -91,4 +98,4 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: "5"
         WriteCapacityUnits: "5"
-      TableName: BakinBaconBaconBits
+      TableName: !Sub ${StackName}BaconBits
